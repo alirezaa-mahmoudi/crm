@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CustomerRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
  */
@@ -25,12 +26,12 @@ class Customer
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $firstname;
+    private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $lastname;
+    private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -79,26 +80,26 @@ class Customer
         return $this;
     }
 
-    public function getFirstname(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->firstname;
+        return $this->firstName;
     }
 
-    public function setFirstname(string $firstname): self
+    public function setFirstName(string $firstName): self
     {
-        $this->firstname = $firstname;
+        $this->firstName = $firstName;
 
         return $this;
     }
 
-    public function getLastname(): ?string
+    public function getLastName(): ?string
     {
-        return $this->lastname;
+        return $this->lastName;
     }
 
-    public function setLastname(string $lastname): self
+    public function setLastName(string $lastName): self
     {
-        $this->lastname = $lastname;
+        $this->lastName = $lastName;
 
         return $this;
     }
