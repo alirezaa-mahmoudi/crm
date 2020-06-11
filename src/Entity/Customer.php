@@ -6,9 +6,8 @@ use App\Repository\CustomerRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
- * @ORM\Entity(repositoryClass=CustomerRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository", repositoryClass=CustomerRepository::class)
  */
 class Customer
 {
@@ -64,6 +63,11 @@ class Customer
      * @Assert\Email()
      */
     private $email;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updated_at;
 
     public function getId(): ?int
     {
@@ -174,6 +178,18 @@ class Customer
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }
