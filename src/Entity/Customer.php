@@ -9,7 +9,16 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={
+ *     "get"={"path" = "/customers/list"},
+ *     "post"={"path" = "/customers/create"}
+ *     },
+ *     itemOperations={"get",
+ *     "put" = {"path" = "/customers/update/{id}"},
+ *     "delete" = {"path" = "/customers/delete/{id}"}
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository", repositoryClass=CustomerRepository::class)
  * @UniqueEntity(fields={"email"})
  */
