@@ -9,7 +9,8 @@ class CustomerTest extends WebTestCase
     public function login()
     {
         $client = self::createClient();
-
+        $client->setServerParameter('CONTENT_TYPE', 'application/json');
+        $client->setServerParameter('HTTP_ACCEPT', 'application/json');
         $client->request(
             'POST',
             '/api/login',
@@ -18,6 +19,8 @@ class CustomerTest extends WebTestCase
             ['CONTENT_TYPE' => 'application/json'],
             '{"username":"admin@admin.com", "password":"admin123456"}'
         );
+        $token = json_decode($client->getResponse()->getContent())->token;
+        $client->setServerParameter('HTTP_AUTHORIZATION', sprintf('Bearer %s', $token));
 
         return $client;
     }
@@ -33,50 +36,35 @@ class CustomerTest extends WebTestCase
     public function testUnauthorizedAccessCustomer()
     {
         $client = self::createClient();
-        $client->request('GET', '/api/customers');
+        $client->request('GET', '/api/customers/list');
         $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
     public function testCustomersUrl()
     {
         $client = $this->login();
-        $token = json_decode($client->getResponse()->getContent())->token;
-        $client->setServerParameter('HTTP_AUTHORIZATION', sprintf('Bearer %s', $token));
-        $client->setServerParameter('CONTENT_TYPE', 'application/json');
-        $client->setServerParameter('HTTP_ACCEPT', 'application/json');
         $client->request(
             'GET',
-            '/api/customers',
+            '/api/customers/list',
         );
         $response = $client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-//        $this->assertEquals('dsds', $response->getContent());
     }
     public function testCustomersGetList()
     {
         $client = $this->login();
-        $token = json_decode($client->getResponse()->getContent())->token;
-        $client->setServerParameter('HTTP_AUTHORIZATION', sprintf('Bearer %s', $token));
-        $client->setServerParameter('CONTENT_TYPE', 'application/json');
-        $client->setServerParameter('HTTP_ACCEPT', 'application/json');
         $client->request(
             'GET',
             '/api/customers/list',
             );
         $response = $client->getResponse();
-
         $this->assertEquals(200, $response->getStatusCode());
-
     }
 
     public function testCustomerGetById()
     {
         $client = $this->login();
-        $token = json_decode($client->getResponse()->getContent())->token;
-        $client->setServerParameter('HTTP_AUTHORIZATION', sprintf('Bearer %s', $token));
-        $client->setServerParameter('CONTENT_TYPE', 'application/json');
-        $client->setServerParameter('HTTP_ACCEPT', 'application/json');
         $client->request(
             'GET',
             '/api/customers/1',
@@ -84,6 +72,5 @@ class CustomerTest extends WebTestCase
         $response = $client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
-
     }
 }

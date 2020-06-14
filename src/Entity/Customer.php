@@ -4,13 +4,12 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\CustomerRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-
 
 /**
  * @ApiFilter(
@@ -36,7 +35,6 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  * )
  * @ApiResource(
  *
- *
  *     collectionOperations={
  *     "get"={"path" = "/customers/list"},
  *     "post"={"path" = "/customers/create"}
@@ -50,7 +48,6 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  * @UniqueEntity(fields={"email"}, message="The email has been registered, please enter a new email")
  */
 class Customer implements UpdatedAtDateEntityInterface
-
 {
     /**
      * @ORM\Id()
