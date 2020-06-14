@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+
 
 /**
  * @ApiFilter(
@@ -21,6 +23,16 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
  *     "updatedAt"
  *     },
  *     arguments={"orderParameterName"="sortby"}
+ * )
+ * @ApiFilter(
+ *     SearchFilter::Class,
+ *     properties={
+ *     "id": "exact",
+ *     "firstName": "partial",
+ *     "lastName": "partial",
+ *     "company": "exact",
+ *     "phone": "partial"
+ *     }
  * )
  * @ApiResource(
  *
