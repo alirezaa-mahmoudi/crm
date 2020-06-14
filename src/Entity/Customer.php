@@ -6,7 +6,6 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CustomerRepository;
 use Doctrine\ORM\Mapping as ORM;
-use http\Encoding\Stream\Inflate;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
@@ -48,9 +47,10 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository", repositoryClass=CustomerRepository::class)
- * @UniqueEntity(fields={"email"})
+ * @UniqueEntity(fields={"email"}, message="The email has been registered, please enter a new email")
  */
 class Customer implements UpdatedAtDateEntityInterface
+
 {
     /**
      * @ORM\Id()
@@ -67,52 +67,61 @@ class Customer implements UpdatedAtDateEntityInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
+     * @Assert\Length(min="3")
      */
     private string $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
+     * @Assert\Length(min="3")
      */
     private string $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private string $street;
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank()
+     * @Assert\Length(min="4")
+     * @Assert\Regex(pattern="/\d{4,10}/", message="Please enter valid zip code")
      */
     private string $zip;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private string $city;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private string $country;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="The phone number should not be blank.")
+     * @Assert\Length(min="7")
      */
     private string $phone;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\Email(message="You should enter a valid email")
-     * @Assert\Unique(message="This email has been registered before, Please enter a new Email")
+     * @Assert\NotBlank()
      */
     private string $email;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $updated_at;
+    private ?\DateTime $updated_at;
 
     public function getId(): ?int
     {
