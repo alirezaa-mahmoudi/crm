@@ -75,8 +75,7 @@ class CustomerTest extends WebTestCase
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-
-    public function testCustomerPostMethod()
+    public function testCustomerPostDeleteMethod()
     {
         $client = $this->login();
         $client->request('POST', '/api/customers/create', [], [], [],
@@ -93,12 +92,8 @@ class CustomerTest extends WebTestCase
                     }'
         );
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
-    }
-
-    public function testCustomerDeleteMethod()
-    {
-        $client = $this->login();
-        $client->request('DELETE', '/api/customers/delete/41');
+        $customerId = json_decode($client->getResponse()->getContent())->id;
+        $client->request('DELETE', '/api/customers/delete/'.$customerId);
         $this->assertEquals(204, $client->getResponse()->getStatusCode());
     }
 
