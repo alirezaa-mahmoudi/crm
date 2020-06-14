@@ -11,14 +11,14 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class UpdatedAtEntitySubscriber implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
           KernelEvents::VIEW => ['setUpdatedAt', EventPriorities::PRE_WRITE],
         ];
     }
 
-    public function setUpdatedAt(ViewEvent $event)
+    public function setUpdatedAt(ViewEvent $event): void
     {
         $entity = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();

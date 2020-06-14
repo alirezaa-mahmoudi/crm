@@ -11,14 +11,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
-    private $passwordEncoder;
+    private UserPasswordEncoderInterface $passwordEncoder;
 
     /**
      * @var Factory
      */
     private $faker;
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $this->loadUser($manager);
         $this->loadCustomer($manager);
@@ -31,11 +31,12 @@ class AppFixtures extends Fixture
         $this->faker = Factory::create();
     }
 
-    public function loadUser(ObjectManager $manager)
+    public function loadUser(ObjectManager $manager): void
     {
         $user = new User();
         $user->setEmail('admin@admin.com');
-        $user->setPassword($this->passwordEncoder->encodePassword(
+        $user->setPassword(
+            $this->passwordEncoder->encodePassword(
             $user,
             'admin123456'
         ));
@@ -43,7 +44,7 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-    public function loadCustomer(ObjectManager $manager)
+    public function loadCustomer(ObjectManager $manager): void
     {
         for ($i = 0; $i < 50; ++$i) {
             $customer = new Customer();
