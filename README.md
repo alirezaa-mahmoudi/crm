@@ -34,6 +34,10 @@ METHOD: GET   http://[server]/api/customers/list?firstName=Luis
 ```
 METHOD: GET   http://[server]/api/customers/list?sortby[id],sortby[firstName],sortby[lastName],sortby[company]
 ```
+- Create a Customer
+```
+METHOD: POST   http://[server]/api/customers/create
+```
 - Update a Customer
 ```
 METHOD: PUT   http://[server]/api/customers/update/{id}
