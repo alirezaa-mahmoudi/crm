@@ -50,7 +50,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository", repositoryClass=CustomerRepository::class)
  * @UniqueEntity(fields={"email"})
  */
-class Customer
+class Customer implements UpdatedAtDateEntityInterface
 {
     /**
      * @ORM\Id()
@@ -232,7 +232,7 @@ class Customer
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    public function setUpdatedAt(\DateTimeInterface $updated_at): UpdatedAtDateEntityInterface
     {
         $this->updated_at = $updated_at;
 
