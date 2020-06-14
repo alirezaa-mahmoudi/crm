@@ -108,4 +108,17 @@ class CustomerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('Iran', json_decode($client->getResponse()->getContent())->country);
     }
+
+    public function testCustomersPagination()
+    {
+        $client = $this->login();
+        $client->request(
+                'GET',
+                '/api/customers/list?itemsPerPage=20',
+                );
+        $response = $client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(20, count(json_decode($client->getResponse()->getContent(), true)));
+    }
 }
