@@ -3,9 +3,11 @@
 namespace App\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\Container;
 
 class CustomerTest extends WebTestCase
 {
+
     public function login()
     {
         $client = self::createClient();
@@ -51,6 +53,7 @@ class CustomerTest extends WebTestCase
 
         $this->assertEquals(200, $response->getStatusCode());
     }
+
     public function testCustomersGetList()
     {
         $client = $this->login();
@@ -73,4 +76,25 @@ class CustomerTest extends WebTestCase
 
         $this->assertEquals(200, $response->getStatusCode());
     }
+
+    public function testCustomerPostMethod()
+    {
+        $client = $this->login();
+        $client->request('POST', '/api/customers/create', [], [], [],
+            '{	
+	                "email": "test@test.com",
+	                "company":"bmw",
+	                "phone": "017628245872",
+	                "country": "Germany",
+	                "firstName": "alirezaa",
+	                "lastName": "Mahmoudi",
+                	"street": "Kreuzberg",
+                    "city": "Berlin",
+                	"zip": "34645456"	
+                    }'
+        );
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+    }
+
+
 }
