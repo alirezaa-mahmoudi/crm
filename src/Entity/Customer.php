@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CustomerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use http\Encoding\Stream\Inflate;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
@@ -56,53 +57,57 @@ class Customer
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $company;
+    private string $company;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     */
+    private string $firstName;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     */
+    private string $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $firstName;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $lastName;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $street;
+    private string $street;
 
     /**
      * @ORM\Column(type="string", length=20)
      */
-    private $zip;
+    private string $zip;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $city;
+    private string $city;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $country;
+    private string $country;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="The phone number should not be blank.")
      */
-    private $phone;
+    private string $phone;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\Email()
+     * @Assert\Email(message="You should enter a valid email")
+     * @Assert\Unique(message="This email has been registered before, Please enter a new Email")
      */
-    private $email;
+    private string $email;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
